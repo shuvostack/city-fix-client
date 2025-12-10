@@ -1,21 +1,15 @@
-import { useContext } from "react";
 import { Navigate, useLocation } from "react-router";
-import { UserContext } from "../context/UserContext";
+import useAuth from "../hooks/useAuth";
+import Loader from "../components/shared/Loader/Loader";
 
 const PrivateRoute = ({ children }) => {
-  const { user, loading } = useContext(UserContext);
+  const { user, loading } = useAuth();
   const location = useLocation();
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <span className="loading loading-spinner loading-lg text-primary"></span>
-      </div>
-    );
-  }
+  if (loading) return <Loader></Loader>;
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location.pathname }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return children;
