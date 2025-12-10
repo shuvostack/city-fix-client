@@ -1,32 +1,35 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import auth from "../../firebase/firebase.config";
 import axios from "axios";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import GoogleLogin from "../../components/Auth/GoogleLogin";
+import { Link, useLocation, useNavigate } from "react-router";
+import { FaEnvelope, FaLock, FaExclamationCircle } from "react-icons/fa";
+import GoogleLogin from "./GoogleLogin";
+import { auth } from "../../firebase/firebase.config";
 
 const Login = () => {
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const location = useLocation();
+  const [authError, setAuthError] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const from = location.state?.from || "/dashboard/home";
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+  const onSubmit = async (data) => {
+    setAuthError("");
 
     try {
-      // Firebase login
-      const result = await signInWithEmailAndPassword(auth, email, password);
+      const result = await signInWithEmailAndPassword(
+        auth,
+        data.email,
+        data.password
+      );
 
-      // Backend JWT
       const jwtRes = await axios.post(
         `${import.meta.env.VITE_API_URL}/jwt`,
         { email: result.user.email }
@@ -37,58 +40,126 @@ const Login = () => {
       }
 
       navigate(from, { replace: true });
-    } catch (err) {
-      setError("Invalid email or password");
-      console.error(err);
-    } finally {
-      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setAuthError("Invalid email or password. Please try again.");
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-base-100 px-6">
-      <div className="w-full max-w-md bg-base-200 p-8 rounded-2xl shadow-lg border border-base-300">
-        <h1 className="text-2xl font-bold text-primary mb-6 text-center">
-          Login to CityFix
-        </h1>
+    <div className="w-full max-w-sm mx-auto animate-fade-in-up">
+      
+      {authError && (
+        <div className="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg flex items-start gap-3">
+          <FaExclamationCircle className="text-red-500 mt-1 flex-shrink-0" />
+          <p className="text-sm text-red-600 font-medium">{authError}</p>
+        </div>
+      )}
 
-        <form onSubmit={handleLogin} className="space-y-3">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="input input-bordered w-full"
-            required
-          />
+    
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        
+        {/* EMAIL */}
+        <div className="space-y-1">
+          <label className="text-sm font-semibold text-gray-600 ml-1">Email Address</label>
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <FaEnvelope className="text-gray-400 group-focus-within:text-primary transition-colors" />
+            </div>
+            <input
+              type="email"
+              placeholder="name@example.com"
+              className={`w-full pl-11 pr-4 py-3.5 bg-gray-50 border rounded-xl outline-none transition-all duration-300
+                ${errors.email 
+                  ? "border-red-400 focus:ring-2 focus:ring-red-200" 
+                  : "border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/10"
+                }
+              `}
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Please enter a valid email"
+                }
+              })}
+            />
+          </div>
+          {errors.email && (
+            <p className="text-red-500 text-xs mt-1 ml-1 font-medium">{errors.email.message}</p>
+          )}
+        </div>
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="input input-bordered w-full"
-            required
-          />
+        {/* PASSWORD */}
+        <div className="space-y-1">
+          <div className="flex justify-between items-center ml-1">
+             <label className="text-sm font-semibold text-gray-600">Password</label>
+             <Link to="/forgot-password" className="text-xs text-primary hover:underline font-medium">Forgot Password?</Link>
+          </div>
+          
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <FaLock className="text-gray-400 group-focus-within:text-primary transition-colors" />
+            </div>
+            <input
+              type="password"
+              placeholder="••••••••"
+              className={`w-full pl-11 pr-4 py-3.5 bg-gray-50 border rounded-xl outline-none transition-all duration-300
+                ${errors.password 
+                  ? "border-red-400 focus:ring-2 focus:ring-red-200" 
+                  : "border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/10"
+                }
+              `}
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
+            />
+          </div>
+          {errors.password && (
+            <p className="text-red-500 text-xs mt-1 ml-1 font-medium">{errors.password.message}</p>
+          )}
+        </div>
 
-          {error && <p className="text-error text-sm">{error}</p>}
+        {/* SUBMIT BUTTON */}
+        <button
+          className="w-full py-3.5 bg-primary text-white font-bold rounded-xl shadow-lg shadow-primary/30 hover:shadow-primary/50 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 flex justify-center items-center"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? (
+            <span className="loading loading-spinner loading-sm"></span>
+          ) : (
+            "Sign In"
+          )}
+        </button>
+      </form>
 
-          <button className="btn btn-primary w-full" disabled={loading}>
-            {loading ? (
-              <span className="loading loading-spinner"></span>
-            ) : (
-              "Login"
-            )}
-          </button>
-        </form>
-
-        <GoogleLogin />
-
-        <p className="text-center mt-4 text-sm">
-          New to CityFix?{" "}
-          <Link to="/register" className="text-primary hover:underline">
-            Create an account
-          </Link>
-        </p>
+      {/* DIVIDER */}
+      <div className="relative my-8">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-200"></div>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
+        </div>
       </div>
+
+      {/* GOOGLE LOGIN */}
+      <div>
+        <GoogleLogin />
+      </div>
+
+      <div className="mt-8 text-center lg:hidden">
+         <p className="text-sm text-gray-600">
+           New to CityFix?{" "}
+           <Link to="/auth/register" className="text-primary font-bold hover:underline">
+             Create an account
+           </Link>
+         </p>
+      </div>
+
     </div>
   );
 };

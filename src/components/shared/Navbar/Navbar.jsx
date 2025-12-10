@@ -88,7 +88,7 @@ const Navbar = () => {
             {!user ? (
               <div className="flex items-center gap-2">
                  <Link to="/login" className="px-5 py-2 text-primary font-semibold hover:bg-primary/10 rounded-lg transition-colors">
-                    Login
+                    <button>Login</button>
                  </Link>
                  <Link 
                     to="/register" 

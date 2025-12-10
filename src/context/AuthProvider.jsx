@@ -56,8 +56,8 @@ const AuthProvider = ({ children }) => {
   }, []); 
 
   const authInfo = {
-    user,               // firebase user
-    dbUser,             // backend user document
+    user,             
+    dbUser,            
     role: dbUser?.role,
     premium: dbUser?.isPremium,
     blocked: dbUser?.isBlocked,

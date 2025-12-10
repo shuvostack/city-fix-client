@@ -134,21 +134,6 @@ const Banner = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {/* Custom Styling for Swiper Pagination (Optional Override) */}
-      <style jsx>{`
-        .swiper-pagination-bullet {
-          width: 12px;
-          height: 12px;
-          background: rgba(255,255,255,0.5);
-          opacity: 1;
-        }
-        .swiper-pagination-bullet-active {
-          width: 30px;
-          border-radius: 6px;
-          background: #fff;
-        }
-      `}</style>
     </div>
   );
 };

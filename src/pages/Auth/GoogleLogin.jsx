@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import auth from "../../firebase/firebase.config";
+// import auth from "../../firebase/firebase.config";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { auth } from "../../firebase/firebase.config";
 
 const GoogleLogin = () => {
   const [loading, setLoading] = useState(false);
