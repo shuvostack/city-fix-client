@@ -6,7 +6,6 @@ const Forbidden = () => {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 overflow-hidden relative">
       
-      {/* Background Decorative Elements (City Vibe) */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
         <div className="absolute top-10 left-10 w-32 h-32 bg-blue-400 rounded-full blur-3xl"></div>
         <div className="absolute bottom-10 right-10 w-40 h-40 bg-red-400 rounded-full blur-3xl"></div>
@@ -14,18 +13,17 @@ const Forbidden = () => {
 
       <div className="max-w-lg w-full bg-white/80 backdrop-blur-lg rounded-3xl shadow-2xl p-8 text-center border border-white/50 relative z-10">
         
-        {/* Animated City & Shield Icon */}
         <div className="relative w-40 h-40 mx-auto mb-6 flex items-center justify-center">
-          {/* Pulsing Background Circle */}
+         
           <div className="absolute inset-0 bg-red-100 rounded-full animate-ping opacity-75"></div>
           <div className="absolute inset-4 bg-red-50 rounded-full"></div>
 
-          {/* City Icon (Floating Animation) */}
+          {/* City Icon */}
           <div className="z-10 text-gray-400 animate-[bounce_3s_infinite]">
             <Building2 size={80} strokeWidth={1.5} />
           </div>
 
-          {/* Shield/Lock Icon (Overlay - Restricted Access) */}
+          {/* Shield Icon */}
           <div className="absolute -bottom-2 -right-2 bg-white p-2 rounded-full shadow-lg z-20 animate-pulse">
              <ShieldAlert size={48} className="text-red-500" fill="currentColor" fillOpacity={0.1} />
           </div>
@@ -63,7 +61,6 @@ const Forbidden = () => {
           </Link>
         </div>
 
-        {/* Footer aesthetic */}
         <div className="mt-8 flex justify-center gap-2 opacity-30">
             {[...Array(5)].map((_, i) => (
                 <Construction key={i} size={20} />

@@ -31,7 +31,6 @@ const Footer = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-          {/* Brand Info */}
           <div className="space-y-4">
             <div className="scale-90 origin-left filter">
               {/* <Logo /> */}

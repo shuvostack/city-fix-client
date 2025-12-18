@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-// import auth from "../../firebase/firebase.config";
 import axios from "axios";
 import { useNavigate } from "react-router";
 import { auth } from "../../firebase/firebase.config";
@@ -17,23 +16,28 @@ const GoogleLogin = () => {
 
       const result = await signInWithPopup(auth, provider);
 
-      // backend user save/update
       const userData = {
         name: result.user.displayName,
         email: result.user.email,
+        photo: result.user.photoURL,
         role: "citizen",
       };
 
-      const res = await axios.post(
+       await axios.post(
         `${import.meta.env.VITE_API_URL}/users`,
         userData
       );
 
-      if (res.data?.token) {
-        localStorage.setItem("cityfix-token", res.data.token);
+      const jwtRes = await axios.post(
+        `${import.meta.env.VITE_API_URL}/jwt`,
+        { email: result.user.email }
+      );
+
+      if (jwtRes.data?.token) {
+        localStorage.setItem("cityfix-token", jwtRes.data.token);
       }
 
-      navigate("/dashboard/home");
+      navigate("/");
     } catch (error) {
       console.error(error);
     } finally {

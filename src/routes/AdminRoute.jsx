@@ -1,8 +1,8 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "react-router";
 import useAuth from "../hooks/useAuth";
 import useUserRole from "../hooks/useUserRole";
-import Forbidden from "../components/Forbidden/Forbidden";
 import Loader from "../components/shared/Loader/Loader";
+import Forbidden from "../components/Forbidden/Forbidden";
 
 const AdminRoute = ({ children }) => {
   const { user, loading } = useAuth();

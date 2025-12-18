@@ -11,10 +11,10 @@ const AuthLayout = () => {
   return (
     <div className="min-h-screen w-full flex bg-gray-50 font-sans overflow-hidden">
       
-      {/* ================= LEFT SIDE (Visuals & Branding) ================= */}
+      {/* Left */}
       <div className="hidden lg:flex lg:w-[55%] relative flex-col justify-between p-12 bg-gray-900 text-white overflow-hidden">
         
-        {/* Dynamic Background Image with Overlay */}
+        {/* Dynamic Background */}
         <div 
           className="absolute inset-0 bg-cover bg-center transition-transform duration-[10s] hover:scale-105"
           style={{ 
@@ -22,25 +22,23 @@ const AuthLayout = () => {
           }}
         ></div>
         
-        {/* Gradient Overlays for Readability */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/90 to-blue-900/80 mix-blend-multiply"></div>
         <div className="absolute inset-0 bg-black/20"></div>
 
-        {/* Floating Decorative Elements (Animation) */}
         <div className="absolute top-20 right-20 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"></div>
 
-        {/* Content Layer */}
+        {/* Content */}
         <div className="relative z-10 h-full flex flex-col justify-between">
             
-            {/* Top: Logo */}
+            {/* Logo */}
             <div>
                <div className="bg-white/10 backdrop-blur-md inline-block px-4 py-2 rounded-2xl border border-white/20">
-                  <Logo></Logo> {/* Ensure Logo text color is handled or use invert filter if needed */}
+                  <Logo></Logo> 
                </div>
             </div>
 
-            {/* Middle: Hero Text */}
+            {/* Middle */}
             <div className="space-y-6 max-w-lg">
                 <h1 className="text-5xl font-bold leading-tight">
                   {isRegister ? "Join the Change." : "Welcome Back."} <br />
@@ -50,7 +48,7 @@ const AuthLayout = () => {
                   "Report infrastructure issues, track real-time progress, and help us maintain a safer, cleaner environment for everyone."
                 </p>
 
-                {/* Feature Tags */}
+                {/* Feature */}
                 <div className="flex gap-3 pt-2">
                     {['Real-time Tracking', 'Direct Impact', 'Community Driven'].map((tag, i) => (
                         <span key={i} className="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-xs font-medium backdrop-blur-sm">
@@ -60,7 +58,7 @@ const AuthLayout = () => {
                 </div>
             </div>
 
-            {/* Bottom: Floating Stats Card (Unique Touch) */}
+            {/* Floating Stats Card */}
             <div className="flex items-center gap-4">
                 {/* Card 1 */}
                 <div className="flex items-center gap-3 bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/10 w-fit">
@@ -87,10 +85,8 @@ const AuthLayout = () => {
         </div>
       </div>
 
-      {/* ================= RIGHT SIDE (Form Area) ================= */}
+      {/* RIGHT SIDE */}
       <div className="w-full lg:w-[45%] flex flex-col relative bg-white">
-        
-        {/* Navigation Bar */}
         <div className="absolute top-0 left-0 w-full p-6 flex justify-between items-center z-20">
             <Link 
                 to="/" 
@@ -102,7 +98,7 @@ const AuthLayout = () => {
                 Back to Home
             </Link>
 
-            {/* Toggle Login/Register Hint */}
+            {/* Toggle Login and Register */}
             <div className="text-sm font-medium">
                 {isRegister ? "Already have an account?" : "New to CityFix?"}
                 <Link 
@@ -114,11 +110,8 @@ const AuthLayout = () => {
             </div>
         </div>
 
-        {/* Scrollable Form Container */}
         <div className="flex-1 flex items-center justify-center p-8 sm:p-12 overflow-y-auto">
             <div className="w-full max-w-md space-y-6">
-                
-                {/* Dynamic Header based on Route */}
                 <div className="text-center mb-8">
                     <h2 className="text-3xl font-bold text-gray-800 mb-2">
                         {isRegister ? "Create Account" : "Sign In"}
@@ -130,7 +123,7 @@ const AuthLayout = () => {
                     </p>
                 </div>
 
-                {/* THE FORM WILL RENDER HERE */}
+
                 <div className="animate-fade-in-up">
                     <Outlet />
                 </div>
@@ -138,7 +131,6 @@ const AuthLayout = () => {
             </div>
         </div>
         
-        {/* Mobile-only Footer aesthetic */}
         <div className="lg:hidden p-4 text-center text-xs text-gray-400 bg-gray-50">
             © {new Date().getFullYear()} CityFix. All rights reserved.
         </div>
