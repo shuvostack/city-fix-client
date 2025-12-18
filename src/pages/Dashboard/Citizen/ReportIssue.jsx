@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router"; 
+import { useNavigate } from "react-router";
 import axios from "axios";
-import toast from "react-hot-toast";
-import { useQuery } from "@tanstack/react-query"; 
+import { useQuery } from "@tanstack/react-query";
 import {
   Camera,
   MapPin,
@@ -15,7 +14,7 @@ import {
   ImagePlus,
   Loader2,
 } from "lucide-react";
-import Swal from "sweetalert2";
+import Swal from "sweetalert2"; 
 import useAuth from "../../../hooks/useAuth";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
@@ -37,7 +36,6 @@ const ReportIssue = () => {
     reset,
   } = useForm();
 
-  
   const { data: userData = {} } = useQuery({
     queryKey: ["user-check-limit", user?.email],
     queryFn: async () => {
@@ -47,7 +45,6 @@ const ReportIssue = () => {
     enabled: !!user?.email,
   });
 
-  
   const { data: issueCount = 0 } = useQuery({
     queryKey: ["issue-count-check", user?.email],
     queryFn: async () => {
@@ -79,7 +76,6 @@ const ReportIssue = () => {
       return;
     }
 
-    
     if (!userData.isVerified && issueCount >= 3) {
       Swal.fire({
         icon: "warning",
@@ -122,14 +118,27 @@ const ReportIssue = () => {
       const res = await axiosSecure.post("/issues", issueData);
 
       if (res.data.insertedId) {
-        toast.success("Issue reported successfully!");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Report Submitted!",
+          text: "Thank you for reporting. We will review it shortly.",
+          showConfirmButton: false,
+          timer: 2000,
+        });
+
         reset();
         setImagePreview(null);
         navigate("/dashboard/my-issues");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Failed to submit report.");
+
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "Something went wrong! Please try again later.",
+      });
     } finally {
       setLoading(false);
     }
@@ -235,7 +244,6 @@ const ReportIssue = () => {
               )}
             </div>
 
-            
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-1">
                 <label className="text-sm font-bold text-gray-700 ml-1">
@@ -317,7 +325,6 @@ const ReportIssue = () => {
               )}
             </div>
 
-            
             <div className="pt-2">
               <button
                 disabled={loading}

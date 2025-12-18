@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { FaEnvelope, FaLock, FaExclamationCircle } from "react-icons/fa";
 import GoogleLogin from "./GoogleLogin";
 import { auth } from "../../firebase/firebase.config";
+import Swal from "sweetalert2"; 
 
 const Login = () => {
   const [authError, setAuthError] = useState("");
@@ -30,19 +31,35 @@ const Login = () => {
         data.password
       );
 
-      const jwtRes = await axios.post(
-        `${import.meta.env.VITE_API_URL}/jwt`,
-        { email: result.user.email }
-      );
+      const jwtRes = await axios.post(`${import.meta.env.VITE_API_URL}/jwt`, {
+        email: result.user.email,
+      });
 
       if (jwtRes.data?.token) {
         localStorage.setItem("cityfix-token", jwtRes.data.token);
       }
 
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "Login Successful!",
+        text: "Welcome back to CityFix.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
       navigate(from, { replace: true });
     } catch (error) {
       console.error(error);
-      setAuthError("Invalid email or password. Please try again.");
+      const errorMessage = "Invalid email or password. Please try again.";
+      setAuthError(errorMessage);
+
+      Swal.fire({
+        icon: "error",
+        title: "Login Failed",
+        text: errorMessage,
+        confirmButtonColor: "#d33",
+      });
     }
   };
 
@@ -58,7 +75,9 @@ const Login = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Email */}
         <div className="space-y-1">
-          <label className="text-sm font-semibold text-gray-600 ml-1">Email Address</label>
+          <label className="text-sm font-semibold text-gray-600 ml-1">
+            Email Address
+          </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <FaEnvelope className="text-gray-400 group-focus-within:text-primary transition-colors" />
@@ -67,9 +86,10 @@ const Login = () => {
               type="email"
               placeholder="name@example.com"
               className={`w-full pl-11 pr-4 py-3.5 bg-gray-50 border rounded-xl outline-none transition-all duration-300
-                ${errors.email 
-                  ? "border-red-400 focus:ring-2 focus:ring-red-200" 
-                  : "border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/10"
+                ${
+                  errors.email
+                    ? "border-red-400 focus:ring-2 focus:ring-red-200"
+                    : "border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/10"
                 }
               `}
               {...register("email", { required: "Email is required" })}
@@ -79,7 +99,9 @@ const Login = () => {
 
         {/* Password */}
         <div className="space-y-1">
-          <label className="text-sm font-semibold text-gray-600 ml-1">Password</label>
+          <label className="text-sm font-semibold text-gray-600 ml-1">
+            Password
+          </label>
           <div className="relative group">
             <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
               <FaLock className="text-gray-400 group-focus-within:text-primary transition-colors" />
@@ -88,9 +110,10 @@ const Login = () => {
               type="password"
               placeholder="••••••••"
               className={`w-full pl-11 pr-4 py-3.5 bg-gray-50 border rounded-xl outline-none transition-all duration-300
-                ${errors.password 
-                  ? "border-red-400 focus:ring-2 focus:ring-red-200" 
-                  : "border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/10"
+                ${
+                  errors.password
+                    ? "border-red-400 focus:ring-2 focus:ring-red-200"
+                    : "border-gray-200 focus:border-primary focus:ring-4 focus:ring-primary/10"
                 }
               `}
               {...register("password", { required: "Password is required" })}
@@ -115,19 +138,24 @@ const Login = () => {
           <div className="w-full border-t border-gray-200"></div>
         </div>
         <div className="relative flex justify-center text-sm">
-          <span className="px-4 bg-white text-gray-500 font-medium">Or continue with</span>
+          <span className="px-4 bg-white text-gray-500 font-medium">
+            Or continue with
+          </span>
         </div>
       </div>
 
       <GoogleLogin />
 
       <div className="mt-8 text-center lg:hidden">
-         <p className="text-sm text-gray-600">
-           New to CityFix?{" "}
-           <Link to="/auth/register" className="text-primary font-bold hover:underline">
-             Create an account
-           </Link>
-         </p>
+        <p className="text-sm text-gray-600">
+          New to CityFix?{" "}
+          <Link
+            to="/auth/register"
+            className="text-primary font-bold hover:underline"
+          >
+            Create an account
+          </Link>
+        </p>
       </div>
     </div>
   );
