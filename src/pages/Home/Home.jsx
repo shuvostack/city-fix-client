@@ -6,6 +6,7 @@ import HowItWorks from './HowItWorks';
 import FAQ from './FAQ';
 import MobileApp from './MobileApp';
 import Testimonials from './Testimonials';
+import Newsletter from './Newsletter';
 
 const Home = () => {
     return (
@@ -17,6 +18,7 @@ const Home = () => {
             <Testimonials></Testimonials>
             <MobileApp></MobileApp>
             <FAQ></FAQ>
+            <Newsletter></Newsletter>
         </div>
     );
 };
