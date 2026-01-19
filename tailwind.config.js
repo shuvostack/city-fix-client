@@ -2,6 +2,9 @@
 import daisyui from "daisyui";
 
 export default {
+  // 👇 এই লাইনটি আবশ্যিক, এটি না থাকলে টগল বাটন কাজ করবে না
+  darkMode: 'class', 
+
   content: ["./src/**/*.{js,jsx,ts,tsx,html}"],
   theme: {
     extend: {
@@ -14,6 +17,7 @@ export default {
 
   daisyui: {
     themes: [
+      "light", // 👇 ডিফল্ট লাইট থিমটি অ্যাড করে দিন, নইলে সুইচ করলে লাইট মোড আসবে না
       {
         cityfixdark: {
           /* BRAND COLORS */
@@ -35,7 +39,7 @@ export default {
           "base-300": "#292C35",          // Border / Hover BG
           "base-content": "#E5E7EB",      // Soft Light Text
 
-          /* NEUTRALS (for text, border, sidebar) */
+          /* NEUTRALS */
           "neutral": "#1F2937",
           "neutral-focus": "#111827",
           "neutral-content": "#CBD5E1",
