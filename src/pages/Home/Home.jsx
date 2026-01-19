@@ -7,6 +7,8 @@ import FAQ from './FAQ';
 import MobileApp from './MobileApp';
 import Testimonials from './Testimonials';
 import Newsletter from './Newsletter';
+import VolunteerCTA from './VolunteerCTA';
+import Partners from './Partners';
 
 const Home = () => {
     return (
@@ -17,6 +19,8 @@ const Home = () => {
             <HowItWorks></HowItWorks>
             <Testimonials></Testimonials>
             <MobileApp></MobileApp>
+            <VolunteerCTA></VolunteerCTA>
+            <Partners></Partners>
             <FAQ></FAQ>
             <Newsletter></Newsletter>
         </div>
