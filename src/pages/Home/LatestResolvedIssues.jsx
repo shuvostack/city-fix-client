@@ -55,7 +55,7 @@ const LatestResolvedIssues = () => {
         </div>
 
         {issues.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {issues.map((issue) => (
               <IssueCard key={issue._id} issue={issue} />
             ))}
